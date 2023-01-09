@@ -17,6 +17,9 @@ const bcrypt = require('bcryptjs');
 // Require jwt for storingi the tokens
 const jwt = require('jsonwebtoken');
 
+// require the fetchuser middleware
+const fetchuser = require('../MIddlewares/fetchuser');
+
 // Route 1 : Create a new User Using POST "/api/auth/createUser"
 router.post('/createUser', async (req, res) => {
   try {
@@ -94,6 +97,21 @@ router.post('/userLogin', async (req, res) => {
     return res.status(201).json({
       message:'Try, to login with valid credentails!'
     });
+  } catch (error) {
+    return res.status(500).json({
+      message:'Some Internal Server Error',
+      error:error.message
+    });
+  }
+});
+
+// Fetch ther user
+router.get('/getUser',fetchuser, async (req, res) => {
+  try {
+    const user = await User.findOne({
+      _id:req.user._id
+    });
+    return res.status(201).json(user);
   } catch (error) {
     return res.status(500).json({
       message:'Some Internal Server Error',
