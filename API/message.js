@@ -37,4 +37,25 @@ router.post('/createMessage',fetchuser, async (req,res)=> {
   }
 });
 
+// Read a Created Message
+router.get('/getMyMessages',fetchuser, async (req, res) => {
+  try {
+
+    const item = await Message.find();
+    if(!item) {
+      return res.status(404).json({
+        message:'Not Found...'
+      });
+    }
+    return res.status(201).json({
+      message:item
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message:'Some Internal Server Error',
+      error:error.message
+    });
+  }
+});
+
 module.exports = router;
