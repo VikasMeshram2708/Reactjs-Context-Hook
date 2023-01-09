@@ -1,6 +1,6 @@
 const monk = require('monk');
 
-const db = monk('localhost/messageBoard');
+const db = monk(process.env.MONGO_URI);
 
 if(db === undefined) {
   console.log('Failed to Connect with DB...');

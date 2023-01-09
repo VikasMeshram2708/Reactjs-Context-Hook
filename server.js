@@ -21,6 +21,7 @@ app.use(express.json());
 // });
 
 app.use('/api/auth', require('./API/auth'));
+app.use('/api/message', require('./API/message'));
 
 
 const port = PORT;
