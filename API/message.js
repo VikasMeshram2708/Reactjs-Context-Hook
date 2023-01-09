@@ -58,4 +58,42 @@ router.get('/getMyMessages',fetchuser, async (req, res) => {
   }
 });
 
+// Update The Created Message
+router.put('/updateMyMessage/:id',fetchuser, async (req, res) => {
+  try {
+
+    const { id } = req.params;
+
+    const value = await Schema.validateAsync(req.body);
+    
+    const item = await Message.findOne({
+      _id:id,
+    });
+
+    if(!item) {
+      return  res.status(422).json({
+        message:'Not Found...'
+      });
+    }
+    // validate the body
+
+    await Message.update(
+      {
+        _id:id
+      },
+      {
+        $set:value
+      }
+    );
+    return res.status(201).json({
+      message:'Message Was Successfully Updated!'
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message:'Some Internal Server Error',
+      error:error.message
+    });
+  }
+});
+
 module.exports = router;
