@@ -96,4 +96,34 @@ router.put('/updateMyMessage/:id',fetchuser, async (req, res) => {
   }
 });
 
+// Delete the Created Messages
+router.delete('/deleteMyMessage/:id',fetchuser, async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const item = await Message.findOne({
+      _id:id,
+    });
+
+    if(!item) {
+      return res.status(422).json({
+        messag:'Not Found...'
+      });
+    }
+
+    await Message.remove({
+      _id:id
+    });
+
+    return res.status(201).json({
+      message:'Success'
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message:'Some Internal Server Error',
+      error:error.message
+    });
+  }
+});
+
 module.exports = router;
