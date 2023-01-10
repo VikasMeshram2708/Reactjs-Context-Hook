@@ -3,9 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import MessageContext from '../Context/MessageContext';
 
 const Messenger = () => {
-  const d = useContext(MessageContext);
+  const { items, deleteMyMessage } = useContext(MessageContext);
 
-  console.log(d);
+
+  // console.log(d);
 
   const navigate = useNavigate(); 
 
@@ -35,8 +36,7 @@ const Messenger = () => {
     console.log(json);
     if(response.status === 201) {
       alert('Your Message Was Successfully Sent...');
-      setTitle('');
-      setAnswer('');
+      window.location.reload();
     }
   },[title, answer]);
 
@@ -67,6 +67,36 @@ const Messenger = () => {
         </div>
         <button className="btn btn-danger fs-3 rounded w-100">Submit</button>
       </form>
+
+      {/* Show all the Messages in Cards */}
+      <div className="container mt-4">
+        <div className="row row-cols-1 row-cols-md-2 g-4">
+          {
+            items.map((elem) => {
+              return (
+                <div className="col" key={elem._id + Math.random()}>
+                  <div className="card">
+                    <div className="card-body">
+                      <h5 className="card-title">{elem.title}</h5>
+                      <p className="card-text">{elem.answer}</p>
+                      <hr />
+                      <button
+                        onClick={() => {
+                          deleteMyMessage(elem._id);
+                          alert('Your Message was deleted...');
+                          window.location.reload();
+                        }}
+                        type='button'
+                        className="rounded btn btn-sm btn-danger fs-4">Delete</button>
+                      <button type='button' className="rounded mx-3 btn btn-sm btn-info fs-4">Update</button>
+                    </div>
+                  </div>
+                </div>
+              );
+            })
+          }
+        </div>
+      </div>
     </>
   );
 };

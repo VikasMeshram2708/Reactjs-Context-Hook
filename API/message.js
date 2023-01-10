@@ -48,7 +48,7 @@ router.get('/getMyMessages',fetchuser, async (req, res) => {
       });
     }
     return res.status(201).json({
-      message:item
+      message:item.reverse()
     });
   } catch (error) {
     return res.status(500).json({
