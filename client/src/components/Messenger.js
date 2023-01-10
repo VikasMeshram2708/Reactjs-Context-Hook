@@ -1,7 +1,12 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {useState, useEffect, useCallback, useContext} from 'react';
 import { useNavigate } from 'react-router-dom';
+import MessageContext from '../Context/MessageContext';
 
 const Messenger = () => {
+  const d = useContext(MessageContext);
+
+  console.log(d);
+
   const navigate = useNavigate(); 
 
   const [title, setTitle] = useState('');
