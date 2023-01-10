@@ -94,7 +94,7 @@ router.post('/userLogin', async (req, res) => {
         });
       }
     }
-    return res.status(201).json({
+    return res.status(422).json({
       message:'Try, to login with valid credentails!'
     });
   } catch (error) {

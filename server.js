@@ -4,6 +4,8 @@ const app = express();
 
 const morgan = require('morgan');
 
+const cors = require('cors');
+
 require('dotenv').config();
 
 const {
@@ -11,6 +13,7 @@ const {
 } = process.env;
 
 // Middlewares
+app.use(cors());
 app.use(morgan('dev'));
 app.use(express.json());
 
