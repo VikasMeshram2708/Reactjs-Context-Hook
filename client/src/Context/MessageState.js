@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/react-in-jsx-scope */
 import { useState, useEffect } from 'react';
-// import { useParams } from 'react-router-dom';
 import MessageContext from './MessageContext';
 
 const MessageState = (props) => {
@@ -33,19 +32,33 @@ const MessageState = (props) => {
         authToken:localStorage.getItem('authToken')
       }
     });
-    const json = await response.json();
-    console.log(json);
+    await response.json();
+    // console.log(json);
   };
 
   useEffect(() => {
     getMyMessages();
-    deleteMyMessage();
   },[]);
+
+
+  //   Make an API call to Update the Message
+  const updateMyMessage = async  (id, title, answer) => {
+    const response = await fetch(`/api/message/updateMyMessage/${id}`,{
+      method:'PUT',
+      body:JSON.stringify({title, answer}),
+      headers:{
+        'Content-Type':'application/json',
+        authToken:localStorage.getItem('authToken')
+      }
+    });
+    const json = await response.json();
+    console.log(json);
+  };
 
 
  
   return (
-    <MessageContext.Provider value={{items,deleteMyMessage}}>
+    <MessageContext.Provider value={{ items, deleteMyMessage, updateMyMessage}}>
       {props.children}
     </MessageContext.Provider>
   );

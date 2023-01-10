@@ -17,13 +17,20 @@ const Message = db.get('messages');
 // Create a new Message
 router.post('/createMessage',fetchuser, async (req,res)=> {
   try {
+    const user = await req.user._id;
+
     // validate the body
     const validMsg  = await Schema.validateAsync(req.body);
-
+    const {title, answer} = req.body;
     if(validMsg) {
       // insert to Db
-      validMsg.createdOn = new Date().toLocaleString();
-      const created = await Message.insert(validMsg);
+      const createdOn = new Date().toLocaleString();
+      const created = await Message.insert({
+        title,
+        answer,
+        createdOn,
+        user
+      });
       return res.status(201).json({
         message:'Message Inserted Successfully!',
         data:created,
@@ -40,8 +47,10 @@ router.post('/createMessage',fetchuser, async (req,res)=> {
 // Read a Created Message
 router.get('/getMyMessages',fetchuser, async (req, res) => {
   try {
-
-    const item = await Message.find();
+    
+    const item = await Message.find({
+      user:req.user._id
+    });
     if(!item) {
       return res.status(404).json({
         message:'Not Found...'

@@ -3,15 +3,17 @@ import { useNavigate } from 'react-router-dom';
 import MessageContext from '../Context/MessageContext';
 
 const Messenger = () => {
-  const { items, deleteMyMessage } = useContext(MessageContext);
+  const {items, deleteMyMessage, updateMyMessage } = useContext(MessageContext);
 
-
-  // console.log(d);
 
   const navigate = useNavigate(); 
 
   const [title, setTitle] = useState('');
   const [answer, setAnswer] = useState('');
+
+  const [btnFlag, setBtnFlag] = useState(false);
+
+  const [updatorId, setUpdatorId] = useState(0);
 
 
   const formHandler = useCallback( async (event) => {
@@ -40,6 +42,7 @@ const Messenger = () => {
     }
   },[title, answer]);
 
+
   useEffect( () => {
     if(!localStorage.getItem('authToken')) {
       navigate('/');
@@ -65,7 +68,16 @@ const Messenger = () => {
             setAnswer(event.target.value);
           }} placeholder='enter answer...' />
         </div>
-        <button className="btn btn-danger fs-3 rounded w-100">Submit</button>
+        {!btnFlag ? <button className="btn btn-danger fs-3 rounded w-100">Submit</button> : 
+          <button
+            onClick={() => {
+              updateMyMessage(updatorId,title,answer);
+              alert('Your Message Was Successfully Updated...');
+              window.location.reload();
+            }}
+            type='button'
+            className="btn btn-danger fs-3 rounded w-100">Apply Update</button>
+        }
       </form>
 
       {/* Show all the Messages in Cards */}
@@ -88,7 +100,15 @@ const Messenger = () => {
                         }}
                         type='button'
                         className="rounded btn btn-sm btn-danger fs-4">Delete</button>
-                      <button type='button' className="rounded mx-3 btn btn-sm btn-info fs-4">Update</button>
+                      <button
+                        onClick={() => {
+                          setBtnFlag(true);
+                          setTitle(elem.title);
+                          setAnswer(elem.answer);
+                          setUpdatorId(elem._id);
+                        }} 
+                        type='button' 
+                        className="rounded mx-3 btn btn-sm btn-info fs-4">Update</button>
                     </div>
                   </div>
                 </div>
