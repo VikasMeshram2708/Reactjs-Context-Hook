@@ -14,4 +14,4 @@
 
     * [x] Create Basic Components.
      
-    * [] use Context Hook for handling API's.
+    * [x] use Context Hook for handling API's.
