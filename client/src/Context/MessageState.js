@@ -37,7 +37,9 @@ const MessageState = (props) => {
   };
 
   useEffect(() => {
-    getMyMessages();
+    if(localStorage.getItem('authToken')) {
+      getMyMessages();
+    }
   },[]);
 
 

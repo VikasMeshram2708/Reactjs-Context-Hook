@@ -83,7 +83,7 @@ const Messenger = () => {
       {/* Show all the Messages in Cards */}
       <div className="container mt-4">
         <div className="row row-cols-1 row-cols-md-2 g-4">
-          {
+          { 
             items.map((elem) => {
               return (
                 <div className="col" key={elem._id + Math.random()}>

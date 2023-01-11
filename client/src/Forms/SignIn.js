@@ -29,7 +29,7 @@ const SignIn = () => {
     }
     if(response.status === 201) {
       localStorage.setItem('authToken',json.token);
-      alert('User Registerd Successfully!');
+      alert('User Logged In Successfully!');
       navigate('/messenger');
     }    
   },[email,password]);
